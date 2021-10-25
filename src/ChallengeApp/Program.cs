@@ -10,23 +10,12 @@ namespace ChallengeApp
         {
             var employee = new Employee("Radek");
             
-            var grades = new List<double>() {12.4, 5, 0.333};
-            employee.AddGrade(12.5);
+            var grades = new List<double>();
+            employee.AddGrade(12.56);
+            employee.AddGrade(20.18);
+            employee.AddGrade(5.47);
 
-            var result = 0.0;
-            var highGrade = double.MinValue;
-            var lowGrade = double.MaxValue;
-
-            foreach(var n in grades)
-            {
-                lowGrade = Math.Min(lowGrade, n);
-                highGrade = Math.Max(highGrade, n);
-                result += n;
-            }
-
-            result /= grades.Count;
-
-            Console.WriteLine($"The average is {result:N2}");
+            var stat = employee.GetStatistics();
             
             
         }
