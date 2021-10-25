@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 
 namespace ChallengeApp
 {
-    public class Employee
+    public partial class Employee
     {
         private string name;
         private List<double> grades = new List<double>();
@@ -15,5 +16,11 @@ namespace ChallengeApp
         {
             this.grades.Add(grade);
         }
+        
+        public void ShowStatistics()
+        {
+            
+        }
+
     }
 }
