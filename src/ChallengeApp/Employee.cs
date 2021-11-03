@@ -17,6 +17,13 @@ namespace ChallengeApp
             this.grades.Add(grade);
         }
         
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+        }
         public Statistics GetStatistics()
         {
             var result = new Statistics();
