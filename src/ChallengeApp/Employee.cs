@@ -5,25 +5,46 @@ namespace ChallengeApp
 {
     public partial class Employee
     {
-        private string name;
         private List<double> grades = new List<double>();
         public Employee(string name)
         {
-            this.name = name;
+            this.Name = name;
         }
 
         public void AddGrade(double grade)
         {
-            this.grades.Add(grade);
-        }
-        
-        public string Name
-        {
-            get
+            bool result = true;
+            if(!result)
             {
-                return this.name;
+                this.grades.Add(grade);
+            }
+            else
+            {
+                Console.WriteLine("Invalid value");
             }
         }
+        public void AddGrade(char grade)
+        {
+            switch(grade)
+            {
+                case 'A':
+                    this.AddGrade(100);
+                    break;
+                case 'B':
+                    this.AddGrade(80);
+                    break;
+                case 'C':
+                    this.AddGrade(60);
+                    break;
+                default:
+                    this.AddGrade(0);
+                    break;
+
+            }
+        }
+        
+        public string Name { get; set; }
+        
         public Statistics GetStatistics()
         {
             var result = new Statistics();
@@ -38,6 +59,20 @@ namespace ChallengeApp
                 result.Average += grade;
             }
             result.Average /= grades.Count;
+
+            switch(result.Average)
+            {
+                case var d when d >= 90:
+                    result.Letter = 'A';
+                    break;
+                case var d when d >= 80:
+                    result.Letter = 'B';
+                    break;
+                default:
+                    result.Letter = 'Z';
+                    break;
+
+            }
 
             return result;
         }
