@@ -10,14 +10,37 @@ namespace ChallengeApp
         {
             var employee = new Employee("Radek");
             
-            var grades = new List<double>();
-            employee.AddGrade(12.56);
-            employee.AddGrade(20.18);
-            employee.AddGrade(5.47);
+            while(true)
+            {
+                Console.WriteLine($"Hello! Enter grade for {employee.Name}");
 
-            var stat = employee.GetStatistics();
-            
-            
+                var input = Console.ReadLine();
+
+                if(input == "q")
+                {
+                    break;
+                }
+                try
+                {
+                    var grade = double.Parse(input);
+                    employee.AddGrade(grade);
+                }
+                catch(FormatException ex)
+                {
+                    System.Console.WriteLine(ex.Message);
+                }
+                catch(ArgumentException ex)
+                {
+                    System.Console.WriteLine(ex.Message);
+                }
+                
+            }
+
+            var stats = employee.GetStatistics();
+            Console.WriteLine($"High: {stats.High}");
+            Console.WriteLine($"Low: {stats.Low}");
+            Console.WriteLine($"Average: {stats.Average}");
+            Console.WriteLine($"Letter: {stats.Letter}");
         }
     }
 }

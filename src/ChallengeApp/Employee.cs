@@ -13,14 +13,13 @@ namespace ChallengeApp
 
         public void AddGrade(double grade)
         {
-            bool result = true;
-            if(!result)
+            if(grade >= 0 && grade <= 100)
             {
                 this.grades.Add(grade);
             }
             else
             {
-                Console.WriteLine("Invalid value");
+                throw new ArgumentException($"Invalid argument: {nameof(grade)}");
             }
         }
         public void AddGrade(char grade)
