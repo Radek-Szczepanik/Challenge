@@ -6,6 +6,35 @@ namespace Challenge.Tests
 {
     public class TypeTests
     {
+        public delegate string WriteMessage(string message);
+
+        int counter = 0;
+
+        [Fact]
+        public void WriteMessageDelegateCanPointToMethod()
+        {
+            WriteMessage del = ReturnMessage;
+
+            del += ReturnMessage;
+            del += ReturnMessage2;
+
+            var result = del("Hello!");
+
+            Assert.Equal(3, counter);
+        }
+
+        string ReturnMessage(string message)
+        {
+            counter++;
+            return message;
+        }
+
+        string ReturnMessage2(string message)
+        {
+            counter++;
+            return message.ToUpper();
+        }
+
         [Fact]
         public void GetEmployeeReturnsDifferentObjects()
         {

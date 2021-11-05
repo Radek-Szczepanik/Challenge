@@ -3,8 +3,12 @@ using System.Collections.Generic;
 
 namespace ChallengeApp
 {
-    public partial class Employee
+    public class Employee
     {
+        public delegate void GradeAddedDelegate(object sender, EventArgs args);
+
+        public event GradeAddedDelegate GradeAdded;
+
         private List<double> grades = new List<double>();
         public Employee(string name)
         {
@@ -16,6 +20,12 @@ namespace ChallengeApp
             if(grade >= 0 && grade <= 100)
             {
                 this.grades.Add(grade);
+                
+                if(GradeAdded != null)
+                {
+                    GradeAdded(this, new EventArgs());
+                }
+                
             }
             else
             {

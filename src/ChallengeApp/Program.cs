@@ -9,6 +9,7 @@ namespace ChallengeApp
         static void Main(string[] args)
         {
             var employee = new Employee("Radek");
+            employee.GradeAdded += OnGradeAdded;
             
             while(true)
             {
@@ -41,6 +42,11 @@ namespace ChallengeApp
             Console.WriteLine($"Low: {stats.Low}");
             Console.WriteLine($"Average: {stats.Average}");
             Console.WriteLine($"Letter: {stats.Letter}");
+        }
+
+        static void OnGradeAdded(object sender, EventArgs args)
+        {
+            System.Console.WriteLine($"New grade is added");
         }
     }
 }
