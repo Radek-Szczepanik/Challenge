@@ -8,8 +8,8 @@ namespace ChallengeApp
     {
         static void Main(string[] args)
         {
-            var employee = new Employee("Radek");
-            employee.GradeAdded += OnGradeAdded;
+            var employee = new SavedEmployee("Radek");
+            
             
             while(true)
             {
@@ -40,7 +40,7 @@ namespace ChallengeApp
             var stats = employee.GetStatistics();
             Console.WriteLine($"High: {stats.High}");
             Console.WriteLine($"Low: {stats.Low}");
-            Console.WriteLine($"Average: {stats.Average}");
+            Console.WriteLine($"Average: {stats.Average:N2}");
             Console.WriteLine($"Letter: {stats.Letter}");
         }
 

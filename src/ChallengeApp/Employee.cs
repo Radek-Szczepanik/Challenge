@@ -1,90 +1,60 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace ChallengeApp
 {
-    public class Employee
+    public delegate void GradeAddedDelegate(object sender, EventArgs args);
+    public class NamedObject
     {
-        public delegate void GradeAddedDelegate(object sender, EventArgs args);
-
-        public event GradeAddedDelegate GradeAdded;
-
-        private List<double> grades = new List<double>();
-        public Employee(string name)
+        public NamedObject(string name)
         {
             this.Name = name;
         }
+        public string Name { get; set; }
+    }
 
-        public void AddGrade(double grade)
+    public interface IEmployee
+    {
+        void AddGrade(double grade);
+        Statistics GetStatistics();
+        string Name { get; }
+        event GradeAddedDelegate GradeAdded;
+    }
+
+    public abstract class EmployeeBase : NamedObject, IEmployee
+    {
+        public EmployeeBase(string name) : base(name)
         {
-            if(grade >= 0 && grade <= 100)
+        }
+
+        public abstract event GradeAddedDelegate GradeAdded;
+        public abstract void AddGrade(double grade);
+        public abstract Statistics GetStatistics();
+    }
+
+    public class SavedEmployee : EmployeeBase
+    {
+        public SavedEmployee(string name) : base(name)
+        {
+        }
+
+        public override event GradeAddedDelegate GradeAdded;
+        public override void AddGrade(double grade)
+        {
+            using(var writer = File.AppendText($"{Name}.txt"))
             {
-                this.grades.Add(grade);
-                
+                writer.WriteLine(grade);
                 if(GradeAdded != null)
                 {
                     GradeAdded(this, new EventArgs());
                 }
-                
-            }
-            else
-            {
-                throw new ArgumentException($"Invalid argument: {nameof(grade)}");
             }
         }
-        public void AddGrade(char grade)
+
+        public override Statistics GetStatistics()
         {
-            switch(grade)
-            {
-                case 'A':
-                    this.AddGrade(100);
-                    break;
-                case 'B':
-                    this.AddGrade(80);
-                    break;
-                case 'C':
-                    this.AddGrade(60);
-                    break;
-                default:
-                    this.AddGrade(0);
-                    break;
-
-            }
+            throw new NotImplementedException();
         }
-        
-        public string Name { get; set; }
-        
-        public Statistics GetStatistics()
-        {
-            var result = new Statistics();
-            result.Average = 0.0;
-            result.High = double.MinValue;
-            result.Low = double.MaxValue;
-
-            foreach (var grade in grades)
-            {
-                result.Low = Math.Min(grade, result.Low);
-                result.High = Math.Max(grade, result.High);
-                result.Average += grade;
-            }
-            result.Average /= grades.Count;
-
-            switch(result.Average)
-            {
-                case var d when d >= 90:
-                    result.Letter = 'A';
-                    break;
-                case var d when d >= 80:
-                    result.Letter = 'B';
-                    break;
-                default:
-                    result.Letter = 'Z';
-                    break;
-
-            }
-
-            return result;
-        }
-
     }
 }
